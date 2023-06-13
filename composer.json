@@ -1,0 +1,37 @@
+{
+    "name": "service/payment",
+    "description": "builder payment method for payments that require",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Service\\Payment\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Service\\Payment\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "linhnq",
+            "email": "linhnq@ommani.vn"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Service\\Payment\\Providers\\AppServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "phpseclib/phpseclib": "^3.0"
+    },
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "optimize-autoloader": true
+    }
+}
