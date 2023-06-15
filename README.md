@@ -1,24 +1,6 @@
-    /*
-    *  using controller 
-    *
-    *  use Service\Payment\Momo\Processors\ATM as ATMMOMO;
-    *  use Service\Payment\Momo\Processors\WalletRef as WALLETMOMO;
-    *
-    *
-    *  use Service\Payment\Vnpay\Processors\ATM as ATMVNPAY;
-    *  use Service\Payment\Vnpay\Processors\Wallet as WALLETVNPAY;
-    *  
-    *  use Service\Payment\Momo\Processors\ATMRefund as REFUNDATMMOMO;
-    *  use Service\Payment\Momo\Processors\WalletRef as REFUNDWALLETMOMO;
-    *
-    *  
-    *  use Service\Payment\Momo\Processors\Log as ProcessorsLogMOMO;
-    *  use Service\Payment\Vnpay\Processors\Log as ProcessorsLogVNPAY;
-    *
-    *
-    */
-
-
+    
+    
+    
     /*
     *  command line
     *   using Auth laravel 
@@ -30,69 +12,65 @@
     *   php artisan migrate 
     *  
     */
-
-
-
-
-
-
-    /**
-    * wallet momo
+    
+    
+    /*
+    *  using controller 
+    *
+    *   use Illuminate\Http\Request;
+    *   use Service\Payment\Momo\Processors\Wallet;
+    *   use Illuminate\Support\Facades\Redirect;
+    *   use Service\Payment\Momo\Processors\ATM;
+    *   use Service\Payment\Momo\Processors\WalletRef;
+    *   use Service\Payment\Vnpay\Processors\Wallet as ProcessorsWallet;
+    *   use Service\Payment\Momo\Processors\ATMRefund;
+    *   use Service\Payment\Vnpay\Processors\ATM as ProcessorsATM;
+    *   use Service\Payment\Momo\Processors\MOMOTrans;
+    *   use Service\Payment\Vnpay\Processors\VNPTrans;
+    *   use Service\Payment\Vnpay\Processors\VNPAYRefund;
+    *
+    *
     */
-    $data = WALLETMOMO::process([
-        'amount'=> $request->amount,   // int
-        'returnUrl' => route('result')  // url
-        'data'=>$request->all(),       // data
-    ]);
-    return Redirect::to($data->getPayUrl());
+   
+    /**
+        * wallet momo
+        */
+    // $data = Wallet::process([
+    //     'amount'=> $request->amount,   // int
+    //     'data'=>$request->all(),       // data
+    //     'returnUrl' => route('result')  // url
+    // ]);
+    // return Redirect::to($data->getPayUrl());
 
     /**
     *  atm momo
     */
-    $data = ATMMOMO::process([
-        'amount'=> $request->amount,      // int
-        'returnUrl' => route('result')   // url
-        'data'=>$request->all(),          // data
-    ]);
-    return Redirect::to($data);
+    // $data = ATM::process([
+    //     'amount'=> $request->amount,      // int
+    //     'data'=>$request->all(),          // data
+    //     'returnUrl' => route('result')   // url
+    // ]);
+    // return Redirect::to($data);
+
+
 
     /**
-    * refund momo atm
-    */
-    $data = REFUNDATMMOMO::process([
-        'amount'=> 20000,          // int
-        'transId'=>'3028392073',   // transid where db
-    ]);
-    return $data;
-
-    /**
-    * refund momo wallet
-    */
-    $data = REFUNDWALLETMOMO::process([
-        'amount'=> 20000,          //int
-        'transId'=>'3028392073',  // transid where db 
-    ]);
-    return $data;
-
-    /**
-    * wallet vnpay
-    */
-    $data = WALLETVNPAY::process([ 
-        'amount'=> $request->amount,       // int
-        'returnUrl' => route('result')    // url
-    ]);
-    return Redirect::to($data);
+        * wallet vnpay
+        */
+    // $data = ProcessorsWallet::process([ 
+    //     'amount'=> $request->amount,       // int
+    //     'returnUrl' => route('result')    // url
+    // ]);
+    // return Redirect::to($data);
 
     /*
     * atm vnpay 
     */
-    $data = ATMVNPAY::process([
-        'amount'=> $request->amount,
-        'returnUrl' => route('result')
-    ]);
-    return Redirect::to($data);
-
-
+    // $data = ProcessorsATM::process([
+    //     'amount'=> $request->amount,
+    //     'returnUrl' => route('result')
+    // ]);
+    // return Redirect::to($data);
 
 
 
@@ -105,15 +83,30 @@
 
     public function result(Request $request)
     {
-        $data = $request->all();
-        ProcessorsLogMOMO::processBacklog($data);           // insert array data momo in DB
-        ProcessorsLogVNPAY::processBacklog($data);          // insert array data vnpay in DB
+        // $data = $request->all();
+        // $test = VNPTrans::Process($data);                           // vnpay transaction
+        // dd($test);
 
-        return redirect()->route({target view}) 
-            or
-        return view('result', compact('data'));
+        // $response = MOMOTrans::Process($data);                    // momo transaction
+        // dd($response);
     }
 
+
+    public function refund(Request $request)
+    {
+        // $test = VNPAYRefund::process([
+        //     'TxnRef' => '1686801306',  // Mã tham chiếu của giao dịch lấy từ db 
+        //     'TransactionType' => '03', // 02 == hoàn toàn phần  03 == hoàn một phần
+        //     'amount' => '20',      // số tiền cần hoàn 
+        //     'TransactionDate' => '20230615105521',  // pay_date lấy từ DB
+        //     'TransactionNo' => '14039431',  // vnp_TransactionNo lấy từ DB
+        //     'CreateBy' => 'ngoquanglinh23062000@gmail.com',     // email người thanh toán lấy từ DB
+        // ]);
+        // dd(json_decode($test->getContent()));
+
+
+        // MOMORefund  coming soon...
+    }
 
 
     /*
